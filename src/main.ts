@@ -1,6 +1,7 @@
 import './styles/index.scss'
 import { Draw } from './drawingCanvas'
 const inputRange = document.querySelector('#thicknessRange') as HTMLInputElement
+const colorInput = document.querySelector('#colorInput') as HTMLInputElement
 
 let canvas: HTMLCanvasElement
 let ctx: CanvasRenderingContext2D
@@ -23,12 +24,14 @@ window.onload = () => {
       e.clientY - canvas.offsetTop
     )
   })
+
   canvas.addEventListener('mousemove', (e) => {
     if (!draw.getIsDrawing()) {
       return
     }
     draw.drawLine(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop)
   })
+
   canvas.addEventListener('mouseup', () => {
     draw.setIsDrawing(false)
     draw.setCanvasData(ctx.getImageData(0, 0, canvas.width, canvas.height))
@@ -39,9 +42,23 @@ window.onload = () => {
     draw.setThickness(+target.value)
   })
 
+  colorInput.addEventListener('change', (e) => {
+    const target = e.target as HTMLInputElement
+    draw.setColor(target.value)
+  })
+
   window.addEventListener('keydown', (e) => {
     if (e.ctrlKey && e.key === 'z') {
-      ctx.putImageData(draw.getCanvasData(-1) as ImageData, 0, 0)
+      const imgData = draw.getCanvasData(-1) as ImageData
+      if (!imgData) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        return ctx.putImageData(
+          ctx.getImageData(0, 0, canvas.width, canvas.height),
+          0,
+          0
+        )
+      }
+      ctx.putImageData(imgData, 0, 0)
     }
   })
 }
@@ -49,7 +66,8 @@ window.onload = () => {
 window.addEventListener('resize', () => {
   canvas.height = window.innerHeight - 100
   canvas.width = window.innerWidth - 100
-  if (draw.getCanvasData()) {
-    ctx.putImageData(draw.getCanvasData() as ImageData, 0, 0)
+  const imgData = draw.getCanvasData() as ImageData
+  if (imgData) {
+    ctx.putImageData(imgData, 0, 0)
   }
 })

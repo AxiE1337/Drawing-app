@@ -20,17 +20,15 @@ export class Draw {
   setThickness(thickness: number) {
     this.#thickness = thickness
   }
-  getThickness() {
-    return this.#thickness
+  setColor(color: string) {
+    this.#color = color
   }
   setCanvasData(data: ImageData) {
     this.#canvasData?.push(data)
   }
   getCanvasData(index?: number) {
     if (index === -1) {
-      if (this.#canvasData.length > 1) {
-        this.#canvasData.length -= 1
-      }
+      this.#canvasData.pop()
     }
     return this.#canvasData.at(-1)
   }
