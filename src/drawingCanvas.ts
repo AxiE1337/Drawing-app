@@ -4,9 +4,8 @@ export class Draw {
   #isDrawing: boolean = false
   #canvasData: ImageData[] = []
   #color: string = 'black'
-  constructor(ctx: CanvasRenderingContext2D, thickness?: number) {
+  constructor(ctx: CanvasRenderingContext2D) {
     this.#ctx = ctx
-    this.#thickness = thickness || this.#thickness
   }
   setIsDrawing(drawing: boolean) {
     this.#isDrawing = drawing
@@ -43,7 +42,6 @@ export class Draw {
   startDrawing(x: number, y: number) {
     this.#isDrawing = true
     this.#ctx.beginPath()
-    this.#ctx.moveTo(x, y)
     this.drawLine(x, y)
   }
 }

@@ -2,6 +2,7 @@ import './styles/index.scss'
 import { Draw } from './drawingCanvas'
 const inputRange = document.querySelector('#thicknessRange') as HTMLInputElement
 const colorInput = document.querySelector('#colorInput') as HTMLInputElement
+const bgColorInput = document.querySelector('#bgColorInput') as HTMLInputElement
 
 let canvas: HTMLCanvasElement
 let ctx: CanvasRenderingContext2D
@@ -24,7 +25,6 @@ window.onload = () => {
       e.clientY - canvas.offsetTop
     )
   })
-
   canvas.addEventListener('mousemove', (e) => {
     if (!draw.getIsDrawing()) {
       return
@@ -47,6 +47,11 @@ window.onload = () => {
     draw.setColor(target.value)
   })
 
+  bgColorInput.addEventListener('change', (e) => {
+    const target = e.target as HTMLInputElement
+    canvas.style.backgroundColor = target.value
+  })
+
   window.addEventListener('keydown', (e) => {
     if (e.ctrlKey && e.key === 'z') {
       const imgData = draw.getCanvasData(-1) as ImageData
@@ -63,11 +68,11 @@ window.onload = () => {
   })
 }
 
-window.addEventListener('resize', () => {
-  canvas.height = window.innerHeight - 100
-  canvas.width = window.innerWidth - 100
-  const imgData = draw.getCanvasData() as ImageData
-  if (imgData) {
-    ctx.putImageData(imgData, 0, 0)
-  }
-})
+// window.addEventListener('resize', () => {
+//   canvas.height = window.innerHeight - 100
+//   canvas.width = window.innerWidth - 100
+//   const imgData = draw.getCanvasData() as ImageData
+//   if (imgData) {
+//     ctx.putImageData(imgData, 0, 0)
+//   }
+// })
