@@ -11,12 +11,19 @@
       <div class="canvas_container">
         <canvas id="canvas" class="canvas"></canvas>
         <div class="tools">
-          <label for="thicknessRange">thickness</label>
+          <label for="eraser">Eraser</label>
+          <input type="checkbox" id="eraser" class="eraser" value="off" />
+          <label for="thicknessRange">Thickness</label>
           <input type="range" id="thicknessRange" min="2" max="100" value="2" />
-          <label for="colorInput">color</label>
+          <label for="colorInput">Brush color</label>
           <input type="color" id="colorInput" class="colorInput" />
-          <label for="bgColorInput">backcolor</label>
-          <input type="color" id="bgColorInput" class="bgColorInput" />
+          <label for="bgColorInput">Background color</label>
+          <input
+            type="color"
+            id="bgColorInput"
+            class="bgColorInput"
+            value="#ffffff"
+          />
           <p>Lctrl + z to undo</p>
         </div>
       </div>

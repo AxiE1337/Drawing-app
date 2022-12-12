@@ -31,7 +31,15 @@ export class Draw {
     }
     return this.#canvasData.at(-1)
   }
-  drawLine(x: number, y: number) {
+  #eraser(eraser: string) {
+    if (eraser === 'on') {
+      return (this.#ctx.globalCompositeOperation = 'destination-out')
+    } else {
+      return (this.#ctx.globalCompositeOperation = 'source-over')
+    }
+  }
+  drawLine(x: number, y: number, eraser: string = 'off') {
+    this.#eraser(eraser)
     this.#ctx.lineWidth = this.#thickness
     this.#ctx.strokeStyle = this.#color
     this.#ctx.lineCap = 'round'
@@ -39,8 +47,9 @@ export class Draw {
     this.#ctx.lineTo(x, y)
     this.#ctx.stroke()
   }
-  startDrawing(x: number, y: number) {
+  startDrawing(x: number, y: number, eraser: string = 'off') {
     this.#isDrawing = true
+    this.#eraser(eraser)
     this.#ctx.beginPath()
     this.drawLine(x, y)
   }

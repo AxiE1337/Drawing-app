@@ -3,6 +3,7 @@ import { Draw } from './drawingCanvas'
 const inputRange = document.querySelector('#thicknessRange') as HTMLInputElement
 const colorInput = document.querySelector('#colorInput') as HTMLInputElement
 const bgColorInput = document.querySelector('#bgColorInput') as HTMLInputElement
+const eraser = document.querySelector('#eraser') as HTMLInputElement
 
 let canvas: HTMLCanvasElement
 let ctx: CanvasRenderingContext2D
@@ -14,27 +15,42 @@ window.onload = () => {
     willReadFrequently: true,
   }) as CanvasRenderingContext2D
 
-  canvas.height = window.innerHeight - 100
-  canvas.width = window.innerWidth - 100
+  canvas.height = window.innerHeight - 50
+  canvas.width = window.innerWidth - 50
 
   draw = new Draw(ctx)
 
   canvas.addEventListener('mousedown', (e) => {
-    draw.startDrawing(
+    return draw.startDrawing(
       e.clientX - canvas.offsetLeft,
-      e.clientY - canvas.offsetTop
+      e.clientY - canvas.offsetTop,
+      eraser.value
     )
   })
+
   canvas.addEventListener('mousemove', (e) => {
     if (!draw.getIsDrawing()) {
       return
     }
-    draw.drawLine(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop)
+    return draw.drawLine(
+      e.clientX - canvas.offsetLeft,
+      e.clientY - canvas.offsetTop,
+      eraser.value
+    )
   })
 
   canvas.addEventListener('mouseup', () => {
     draw.setIsDrawing(false)
     draw.setCanvasData(ctx.getImageData(0, 0, canvas.width, canvas.height))
+  })
+
+  eraser.addEventListener('change', (e) => {
+    const target = e.target as HTMLInputElement
+    if (target.value === 'off') {
+      target.value = 'on'
+    } else {
+      target.value = 'off'
+    }
   })
 
   inputRange.addEventListener('change', (e) => {
@@ -68,11 +84,11 @@ window.onload = () => {
   })
 }
 
-// window.addEventListener('resize', () => {
-//   canvas.height = window.innerHeight - 100
-//   canvas.width = window.innerWidth - 100
-//   const imgData = draw.getCanvasData() as ImageData
-//   if (imgData) {
-//     ctx.putImageData(imgData, 0, 0)
-//   }
-// })
+window.addEventListener('resize', () => {
+  canvas.height = window.innerHeight - 50
+  canvas.width = window.innerWidth - 50
+  const imgData = draw.getCanvasData() as ImageData
+  if (imgData) {
+    ctx.putImageData(imgData, 0, 0)
+  }
+})
