@@ -5,6 +5,7 @@ const colorInput = document.querySelector('#colorInput') as HTMLInputElement
 const bgColorInput = document.querySelector('#bgColorInput') as HTMLInputElement
 const eraser = document.querySelector('#eraser') as HTMLInputElement
 const undoBtn = document.querySelector('#undoBtn') as HTMLButtonElement
+const downloadBtn = document.querySelector('#downloadBtn') as HTMLButtonElement
 
 let canvas: HTMLCanvasElement
 let ctx: CanvasRenderingContext2D
@@ -91,10 +92,20 @@ window.onload = () => {
   undoBtn.addEventListener('click', () => {
     undoHandler()
   })
+
+  downloadBtn.addEventListener('click', () => {
+    const imgData = canvas.toDataURL()
+    const a = document.createElement('a') as HTMLAnchorElement
+    document.body.appendChild(a)
+    a.href = imgData
+    a.download = 'canvas.png'
+    a.click()
+    document.body.removeChild(a)
+  })
 }
 
 window.addEventListener('resize', () => {
-  canvas.height = window.innerHeight - 100
+  canvas.height = window.innerHeight - 50
   canvas.width = window.innerWidth
   const imgData = draw.getCanvasData() as ImageData
   if (imgData) {
