@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
+      rel="stylesheet"
+    />
     <title>Drawing app</title>
   </head>
   <body>
@@ -11,20 +17,34 @@
       <div class="canvas_container">
         <canvas id="canvas" class="canvas"></canvas>
         <div class="tools">
-          <label for="eraser">Eraser</label>
-          <input type="checkbox" id="eraser" class="eraser" value="off" />
-          <label for="thicknessRange">Thickness</label>
-          <input type="range" id="thicknessRange" min="2" max="100" value="2" />
-          <label for="colorInput">Brush color</label>
-          <input type="color" id="colorInput" class="colorInput" />
-          <label for="bgColorInput">Background color</label>
-          <input
-            type="color"
-            id="bgColorInput"
-            class="bgColorInput"
-            value="#ffffff"
-          />
-          <p>Lctrl + z to undo</p>
+          <div class="tools__tool">
+            <label for="eraser">Eraser</label>
+            <input type="checkbox" id="eraser" class="eraser" value="off" />
+          </div>
+          <div class="tools__tool">
+            <label for="thicknessRange">Thickness</label>
+            <input
+              type="range"
+              id="thicknessRange"
+              min="2"
+              max="100"
+              value="2"
+            />
+          </div>
+          <div class="tools__tool">
+            <label for="colorInput">Brush color</label>
+            <input type="color" id="colorInput" class="colorInput" />
+          </div>
+          <div class="tools__tool">
+            <label for="bgColorInput">Background color</label>
+            <input
+              type="color"
+              id="bgColorInput"
+              class="bgColorInput"
+              value="#ffffff"
+            />
+          </div>
+          <button id="undoBtn" class="tools__undo">Lctrl + z to undo</button>
         </div>
       </div>
     </div>

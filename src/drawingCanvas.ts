@@ -38,19 +38,19 @@ export class Draw {
       return (this.#ctx.globalCompositeOperation = 'source-over')
     }
   }
-  drawLine(x: number, y: number, eraser: string = 'off') {
-    this.#eraser(eraser)
+  drawLine(x: number, y: number, eraser: string) {
     this.#ctx.lineWidth = this.#thickness
     this.#ctx.strokeStyle = this.#color
     this.#ctx.lineCap = 'round'
     this.#ctx.lineJoin = 'round'
     this.#ctx.lineTo(x, y)
     this.#ctx.stroke()
+    this.#eraser(eraser)
   }
-  startDrawing(x: number, y: number, eraser: string = 'off') {
+  startDrawing(x: number, y: number, eraser: string) {
     this.#isDrawing = true
     this.#eraser(eraser)
     this.#ctx.beginPath()
-    this.drawLine(x, y)
+    this.drawLine(x, y, eraser)
   }
 }

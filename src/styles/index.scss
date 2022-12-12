@@ -9,6 +9,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  font-family: 'Inter', sans-serif;
   .canvas_container {
     height: 100%;
     width: 100%;
@@ -17,13 +19,39 @@
     align-items: center;
     justify-content: center;
     .canvas {
-      border: 1px solid;
+      background-color: white;
     }
     .tools {
       display: flex;
       align-items: center;
+      justify-content: space-evenly;
+      width: 100%;
+      height: 100%;
+      color: white;
+    }
+    .tools__tool {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
       justify-content: center;
-      background-color: gray;
+      user-select: none;
+      label,
+      input {
+        cursor: pointer;
+      }
+    }
+    .tools__tool:hover {
+      color: rgba(255, 255, 255, 0.4);
+    }
+    .tools__undo {
+      cursor: pointer;
+      user-select: none;
+      background-color: transparent;
+      color: white;
+      border: none;
+    }
+    .tools__undo:hover {
+      color: rgba(255, 255, 255, 0.4);
     }
   }
 }

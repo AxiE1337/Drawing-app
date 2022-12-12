@@ -4,6 +4,7 @@ const inputRange = document.querySelector('#thicknessRange') as HTMLInputElement
 const colorInput = document.querySelector('#colorInput') as HTMLInputElement
 const bgColorInput = document.querySelector('#bgColorInput') as HTMLInputElement
 const eraser = document.querySelector('#eraser') as HTMLInputElement
+const undoBtn = document.querySelector('#undoBtn') as HTMLButtonElement
 
 let canvas: HTMLCanvasElement
 let ctx: CanvasRenderingContext2D
@@ -16,7 +17,7 @@ window.onload = () => {
   }) as CanvasRenderingContext2D
 
   canvas.height = window.innerHeight - 50
-  canvas.width = window.innerWidth - 50
+  canvas.width = window.innerWidth
 
   draw = new Draw(ctx)
 
@@ -68,25 +69,33 @@ window.onload = () => {
     canvas.style.backgroundColor = target.value
   })
 
+  const undoHandler = () => {
+    const imgData = draw.getCanvasData(-1) as ImageData
+    if (!imgData) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      return ctx.putImageData(
+        ctx.getImageData(0, 0, canvas.width, canvas.height),
+        0,
+        0
+      )
+    }
+    ctx.putImageData(imgData, 0, 0)
+  }
+
   window.addEventListener('keydown', (e) => {
     if (e.ctrlKey && e.key === 'z') {
-      const imgData = draw.getCanvasData(-1) as ImageData
-      if (!imgData) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height)
-        return ctx.putImageData(
-          ctx.getImageData(0, 0, canvas.width, canvas.height),
-          0,
-          0
-        )
-      }
-      ctx.putImageData(imgData, 0, 0)
+      undoHandler()
     }
+  })
+
+  undoBtn.addEventListener('click', () => {
+    undoHandler()
   })
 }
 
 window.addEventListener('resize', () => {
-  canvas.height = window.innerHeight - 50
-  canvas.width = window.innerWidth - 50
+  canvas.height = window.innerHeight - 100
+  canvas.width = window.innerWidth
   const imgData = draw.getCanvasData() as ImageData
   if (imgData) {
     ctx.putImageData(imgData, 0, 0)
