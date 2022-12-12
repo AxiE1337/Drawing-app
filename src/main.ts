@@ -1,10 +1,12 @@
 import './styles/index.scss'
 import { Draw } from './drawingCanvas'
+import { setData, getData, deleteData } from './storage'
 const inputRange = document.querySelector('#thicknessRange') as HTMLInputElement
 const colorInput = document.querySelector('#colorInput') as HTMLInputElement
 const bgColorInput = document.querySelector('#bgColorInput') as HTMLInputElement
 const eraser = document.querySelector('#eraser') as HTMLInputElement
 const undoBtn = document.querySelector('#undoBtn') as HTMLButtonElement
+const clearBtn = document.querySelector('#clearBtn') as HTMLButtonElement
 const downloadBtn = document.querySelector('#downloadBtn') as HTMLButtonElement
 
 let canvas: HTMLCanvasElement
@@ -20,17 +22,32 @@ window.onload = () => {
   canvas.height = window.innerHeight - 50
   canvas.width = window.innerWidth
 
-  draw = new Draw(ctx)
+  const storageImg = new Image()
+  storageImg.src = getData('canvas') as string
+  storageImg.onload = () => {
+    ctx.drawImage(storageImg, 0, 0)
+  }
 
-  canvas.addEventListener('mousedown', (e) => {
+  const storageThickness = getData('thickness') || '2'
+  const storageColor = getData('color') || 'black'
+  const storageBgColor = getData('bgColor') || '#FFFFFF'
+
+  draw = new Draw(ctx, storageThickness, storageColor)
+
+  inputRange.value = storageThickness
+  colorInput.value = storageColor
+  bgColorInput.value = storageBgColor
+  canvas.style.backgroundColor = storageBgColor
+
+  const startDrawing = (e: MouseEvent) => {
     return draw.startDrawing(
       e.clientX - canvas.offsetLeft,
       e.clientY - canvas.offsetTop,
       eraser.value
     )
-  })
+  }
 
-  canvas.addEventListener('mousemove', (e) => {
+  const drawing = (e: MouseEvent) => {
     if (!draw.getIsDrawing()) {
       return
     }
@@ -39,12 +56,17 @@ window.onload = () => {
       e.clientY - canvas.offsetTop,
       eraser.value
     )
-  })
+  }
 
-  canvas.addEventListener('mouseup', () => {
+  const endDrawing = () => {
     draw.setIsDrawing(false)
     draw.setCanvasData(ctx.getImageData(0, 0, canvas.width, canvas.height))
-  })
+    setData('canvas', canvas.toDataURL())
+  }
+
+  canvas.addEventListener('mousedown', startDrawing)
+  canvas.addEventListener('mousemove', drawing)
+  canvas.addEventListener('mouseup', endDrawing)
 
   eraser.addEventListener('change', (e) => {
     const target = e.target as HTMLInputElement
@@ -57,17 +79,20 @@ window.onload = () => {
 
   inputRange.addEventListener('change', (e) => {
     const target = e.target as HTMLInputElement
-    draw.setThickness(+target.value)
+    draw.setThickness(target.value)
+    setData('thickness', target.value)
   })
 
   colorInput.addEventListener('change', (e) => {
     const target = e.target as HTMLInputElement
     draw.setColor(target.value)
+    setData('color', target.value)
   })
 
   bgColorInput.addEventListener('change', (e) => {
     const target = e.target as HTMLInputElement
     canvas.style.backgroundColor = target.value
+    setData('bgColor', target.value)
   })
 
   const undoHandler = () => {
@@ -81,6 +106,7 @@ window.onload = () => {
       )
     }
     ctx.putImageData(imgData, 0, 0)
+    setData('canvas', canvas.toDataURL())
   }
 
   window.addEventListener('keydown', (e) => {
@@ -91,6 +117,11 @@ window.onload = () => {
 
   undoBtn.addEventListener('click', () => {
     undoHandler()
+  })
+
+  clearBtn.addEventListener('click', () => {
+    deleteData('canvas')
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
   })
 
   downloadBtn.addEventListener('click', () => {

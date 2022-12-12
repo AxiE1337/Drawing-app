@@ -1,11 +1,17 @@
 export class Draw {
   #ctx: CanvasRenderingContext2D
-  #thickness: number = 2
+  #thickness: string = '2'
   #isDrawing: boolean = false
   #canvasData: ImageData[] = []
   #color: string = 'black'
-  constructor(ctx: CanvasRenderingContext2D) {
+  constructor(
+    ctx: CanvasRenderingContext2D,
+    thickness?: string,
+    color?: string
+  ) {
     this.#ctx = ctx
+    this.#thickness = thickness || '2'
+    this.#color = color || 'black'
   }
   setIsDrawing(drawing: boolean) {
     this.#isDrawing = drawing
@@ -16,7 +22,7 @@ export class Draw {
   getIsDrawing() {
     return this.#isDrawing
   }
-  setThickness(thickness: number) {
+  setThickness(thickness: string) {
     this.#thickness = thickness
   }
   setColor(color: string) {
@@ -39,7 +45,7 @@ export class Draw {
     }
   }
   drawLine(x: number, y: number, eraser: string) {
-    this.#ctx.lineWidth = this.#thickness
+    this.#ctx.lineWidth = +this.#thickness
     this.#ctx.strokeStyle = this.#color
     this.#ctx.lineCap = 'round'
     this.#ctx.lineJoin = 'round'

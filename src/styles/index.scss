@@ -43,15 +43,37 @@
     .tools__tool:hover {
       color: rgba(255, 255, 255, 0.4);
     }
-    .tools__undo {
+    .tools__btns {
       cursor: pointer;
       user-select: none;
       background-color: transparent;
       color: white;
       border: none;
     }
-    .tools__undo:hover {
+    .tools__btns:hover {
       color: rgba(255, 255, 255, 0.4);
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .app {
+    .canvas_container {
+      .canvas {
+        background-color: white;
+      }
+      .tools {
+        overflow: hidden;
+        font-size: 0.6em;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        align-items: center;
+        justify-content: center;
+      }
+      .tools__tool {
+        gap: 0;
+      }
     }
   }
 }
