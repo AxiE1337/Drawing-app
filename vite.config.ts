@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
+import legacy from '@vitejs/plugin-legacy'
 
 export default defineConfig({
   server: {
@@ -30,6 +31,9 @@ export default defineConfig({
           },
         ],
       },
+    }),
+    legacy({
+      targets: ['defaults', 'not IE 11'],
     }),
   ],
 })

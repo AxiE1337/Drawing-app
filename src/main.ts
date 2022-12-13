@@ -29,7 +29,7 @@ window.onload = () => {
   }
 
   const storageThickness = getData('thickness') || '2'
-  const storageColor = getData('color') || 'black'
+  const storageColor = getData('color') || '#222222'
   const storageBgColor = getData('bgColor') || '#FFFFFF'
 
   draw = new Draw(ctx, storageThickness, storageColor)

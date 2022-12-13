@@ -9,7 +9,9 @@
     "start": "vite preview --host"
   },
   "devDependencies": {
+    "@vitejs/plugin-legacy": "^3.0.1",
     "sass": "^1.56.2",
+    "terser": "^5.16.1",
     "typescript": "^4.6.4",
     "vite": "^3.2.3",
     "vite-plugin-pwa": "^0.14.0"
