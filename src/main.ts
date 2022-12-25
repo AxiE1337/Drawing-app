@@ -67,6 +67,7 @@ window.onload = () => {
   canvas.addEventListener('mousedown', startDrawing)
   canvas.addEventListener('mousemove', drawing)
   canvas.addEventListener('mouseup', endDrawing)
+  canvas.addEventListener('mouseout', endDrawing)
 
   eraser.addEventListener('change', (e) => {
     const target = e.target as HTMLInputElement
